@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # Test runner service
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: test
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+    volumes:
+      - ./test-results:/app/test-results
+      - ./screenshots:/app/screenshots
+    networks:
+      - test-network
+    command: npm test
+
+  # API test service
+  api-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: test
+    volumes:
+      - ./test-results:/app/test-results
+    networks:
+      - test-network
+    command: npm run api:test
+
+  # Web test service
+  web-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: test
+    volumes:
+      - ./test-results:/app/test-results
+      - ./screenshots:/app/screenshots
+    networks:
+      - test-network
+    command: npm run web:test
+
+  # MCP Server service
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - '3000:3000'
+    networks:
+      - test-network
+    command: npm run mcp-server
+    restart: unless-stopped
+
+  # Sample application for testing (optional)
+  sample-app:
+    image: nginx:alpine
+    ports:
+      - '8080:80'
+    networks:
+      - test-network
+    volumes:
+      - ./samples/html:/usr/share/nginx/html:ro
+
+networks:
+  test-network:
+    driver: bridge
+
+volumes:
+  test-results:
+  screenshots:

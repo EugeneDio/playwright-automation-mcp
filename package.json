@@ -1,0 +1,51 @@
+{
+  "name": "playwright-automation-mcp",
+  "version": "1.0.0",
+  "description": "A comprehensive Playwright TypeScript automation testing project with MCP server integration and Docker support",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "test": "playwright test",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "api:test": "ts-node src/tests/api/sample-api.test.ts",
+    "web:test": "ts-node src/tests/web/sample-web.test.ts",
+    "mcp-server": "node dist/mcp/server.js",
+    "mcp-server:dev": "ts-node src/mcp/server.ts",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:test": "docker-compose run --rm tests",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "testing",
+    "typescript",
+    "mcp",
+    "api-testing",
+    "web-automation",
+    "e2e-testing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "@types/node": "^22.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "axios": "^1.7.9",
+    "eslint": "^9.20.0",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
