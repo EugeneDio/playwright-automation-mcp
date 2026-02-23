@@ -40,8 +40,10 @@ async function runApiTests(): Promise<void> {
     try {
       await axios.get(`${baseURL}/posts/99999`);
       console.log('✗ Should have thrown error');
-    } catch (error: any) {
-      if (error.response?.status === 404) {
+    } catch (error: unknown) {
+      const axiosError = error as Record<string, unknown>;
+      const response = axiosError.response as Record<string, unknown>;
+      if (response?.status === 404) {
         console.log('✓ Correctly handled 404 error');
       }
     }

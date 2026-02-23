@@ -1,9 +1,14 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 export interface ApiClientConfig {
   baseURL: string;
   timeout?: number;
   headers?: Record<string, string>;
+}
+
+export interface ApiResponse<T = unknown> {
+  data: T;
+  status: number;
 }
 
 /**
@@ -20,23 +25,23 @@ export class ApiClient {
     });
   }
 
-  async get(url: string, params?: Record<string, any>) {
+  async get<T = unknown>(url: string, params?: Record<string, unknown>): Promise<AxiosResponse<T>> {
     return this.client.get(url, { params });
   }
 
-  async post(url: string, data?: any) {
+  async post<T = unknown>(url: string, data?: unknown): Promise<AxiosResponse<T>> {
     return this.client.post(url, data);
   }
 
-  async put(url: string, data?: any) {
+  async put<T = unknown>(url: string, data?: unknown): Promise<AxiosResponse<T>> {
     return this.client.put(url, data);
   }
 
-  async delete(url: string) {
+  async delete<T = unknown>(url: string): Promise<AxiosResponse<T>> {
     return this.client.delete(url);
   }
 
-  async patch(url: string, data?: any) {
+  async patch<T = unknown>(url: string, data?: unknown): Promise<AxiosResponse<T>> {
     return this.client.patch(url, data);
   }
 }

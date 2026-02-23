@@ -48,15 +48,15 @@ test.describe('Example Website Tests', () => {
 test.describe('API Response Tests', () => {
   test('should test API with mock data', async ({ page }: { page: Page }) => {
     // Intercept API calls
-    await page.route('**/api/**', (route: any) => {
-      route.abort();
+    await page.route('**/api/**', (route: { abort: () => Promise<void> }) => {
+      void route.abort();
     });
 
     // Your API testing logic here
     const response = await page.request.get('https://jsonplaceholder.typicode.com/users/1');
     expect(response.status()).toBe(200);
 
-    const data = (await response.json()) as any;
+    const data = (await response.json()) as Record<string, unknown>;
     expect(data.id).toBe(1);
     expect(data.name).toBeTruthy();
   });
